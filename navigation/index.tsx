@@ -6,8 +6,15 @@ import {
   DefaultTheme,
   NavigationContainer,
 } from "@react-navigation/native";
-import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import {
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Octicons,
+} from "@expo/vector-icons";
 
+import ChatRoomScreen from "../screens/ChatRoomScreen";
+import ChatRooms from "../data/ChatRooms";
 import Colors from "../constants/Colors";
 import LinkingConfiguration from "./LinkingConfiguration";
 import MainTabNavigator from "./MainTabNavigator";
@@ -43,7 +50,7 @@ const RootNavigator = () => {
         headerStyle: {
           backgroundColor: Colors.light.tint, // set stylization on the header of the app
           shadowOpacity: 0, // removes white line between title and tab on iOS
-          elevation: 0 // removes white line between title and tab on Android
+          elevation: 0, // removes white line between title and tab on Android
         },
         headerTintColor: Colors.light.background,
         headerTitleAlign: "left",
@@ -77,10 +84,35 @@ const RootNavigator = () => {
         }}
       />
       <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoomScreen}
+        options={({ route }) => ({
+          title: route.params.name,
+          headerRight: () => (
+            <View
+              style={{
+                flexDirection: "row",
+                width: 100,
+                justifyContent: "space-between",
+                marginRight: 10,
+              }}
+            >
+              <FontAwesome5 name="video" size={22} color="white" />
+              <MaterialIcons name="call" size={22} color="white" />
+              <MaterialCommunityIcons
+                name="dots-vertical"
+                size={22}
+                color="white"
+              />
+            </View>
+          ),
+        })}
+      />
+      <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
     </Stack.Navigator>
   );
-}
+};
