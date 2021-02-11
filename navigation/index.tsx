@@ -16,6 +16,7 @@ import {
 import ChatRoomScreen from "../screens/ChatRoomScreen";
 import ChatRooms from "../data/ChatRooms";
 import Colors from "../constants/Colors";
+import ContactsScreen from "../screens/ContactsScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
 import MainTabNavigator from "./MainTabNavigator";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -107,6 +108,10 @@ const RootNavigator = () => {
             </View>
           ),
         })}
+      />
+      <Stack.Screen
+        name="Contacts"
+        component={ContactsScreen}
       />
       <Stack.Screen
         name="NotFound"
