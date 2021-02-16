@@ -1,13 +1,27 @@
-import * as React from "react";
-
+import { API, graphqlOperation } from "aws-amplify";
 import { FlatList, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
 
 import ContactListItem from "../components/ContactListItem";
-import NewMessageButton from "../components/NewMessageButton";
 import { View } from "react-native";
-import users from "../data/Users";
+import { listUsers } from "../src/graphql/queries";
 
 export default function ContactsScreen() {
+
+  const [users, setUsers] = useState([]);
+  
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersData = await API.graphql(graphqlOperation(listUsers));
+        setUsers(usersData.data.listUsers.items);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchUsers();
+  }, []);
+
   return (
     <View style={styles.container}>
       <FlatList
