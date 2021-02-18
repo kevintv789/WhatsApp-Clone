@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
+import { Auth } from "aws-amplify";
 import { Message } from "../../types";
-import React from "react";
 import moment from "moment";
 import styles from "../ChatMessage/styles";
 
@@ -11,10 +12,19 @@ export type ChatMessageProps = {
 
 const ChatMessage = (props: ChatMessageProps) => {
   const { message } = props;
+  const [myUserId, setMyUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userInfo = await Auth.currentAuthenticatedUser();
+      setMyUserId(userInfo.attributes.sub);
+    };
+    fetchUser();
+  }, []);
 
   const isMyMessage = () => {
     // returns true if ID of message is the same as authenticated ID
-    return message.user.id === "u1";
+    return message.user.id === myUserId;
   };
 
   return (
